@@ -1,8 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
 
 # Spatial diffusion and climatic suitability shape the West Nile Virus invasion risk across Europe
 
