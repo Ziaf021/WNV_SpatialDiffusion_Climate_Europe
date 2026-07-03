@@ -21,8 +21,7 @@ This repository contains all analysis code and derived data necessary to
 reproduce the primary findings reported in:
 
 > Farooq Z. *Spatial diffusion and climatic suitability shape the West
-> Nile Virus invasion risk across Europe.* (Under review, *Nature
-> Communications*, 2025).
+> Nile Virus invasion risk across Europe.* .
 
 West Nile virus (WNV) has undergone one of the most remarkable
 geographic expansions in modern European epidemiology, yet the
