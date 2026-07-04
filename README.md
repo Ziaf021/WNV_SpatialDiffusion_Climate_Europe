@@ -308,7 +308,7 @@ The author thanks the European Centre for Disease Prevention and Control
 (ECDC) for providing publicly available WNV surveillance data, the
 Copernicus Climate Change Service for ERA5 reanalysis data, and Eurostat
 for NUTS3 administrative boundary shapefiles. This work was supported by
-[add your funding sources here].
+Horizon Europe project: IDAlert.
 
 ------------------------------------------------------------------------
 
