@@ -312,4 +312,4 @@ for NUTS3 administrative boundary shapefiles. This work was supported by
 
 ------------------------------------------------------------------------
 
-*Last updated: July 2025*
+*Last updated: July 2026*
