@@ -37,8 +37,8 @@ administrative regions in 18 European countries between 2006 and 2024.
 of an existing focus, with invasion risk declining sharply at greater
 distances - Each 100 km of geographic isolation reduced the hazard of
 invasion by 44% (HR = 0.56, 95% CI 0.51–0.63) - Neighbourhood invasion
-pressure independently increased invasion hazard by 37% per standard
-deviation (HR = 1.37, 95% CI 1.23–1.52) - Warmer temperatures eroded the
+pressure independently increased invasion hazard by 26% per standard
+deviation (HR = 1.26, 95% CI 1.17–1.32) - Warmer temperatures eroded the
 protective barrier of geographic isolation, enabling viral establishment
 at distances that would otherwise remain protected (interaction HR =
 1.07, 95% CI 1.04–1.09)
@@ -62,7 +62,7 @@ WNV_SpatialDiffusion_Europe/
 │   │                                  # Figure 4A–B, Kruskal–Wallis tests
 │   ├── 04_sensitivity_prespecified.R  # λ calibration, alternative kernels,
 │   │                                  # shared frailty, climate anomaly, LOCO
-│   ├── 05_ph_diagnostics.R            # Schoenfeld residuals, outlier check,
+│   ├── 05_ph_diagnostics.R            # Schoenfeld residuals,
 │   │                                  # time-varying coefficients, case-
 │   │                                  # weighted kernels, phase stratification
 │   └── 06_supplementary_figures.R    # Supplementary Figures S3–S4,
