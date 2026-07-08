@@ -16,3 +16,7 @@ output/*.rds
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+
+# Superseded/staging artifacts
+run_all.R.orig
+data/temporary

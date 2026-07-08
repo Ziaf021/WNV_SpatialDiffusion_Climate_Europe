@@ -1,12 +1,3 @@
-<<<<<<< HEAD
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-=======
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
-
 # Spatial diffusion and climatic suitability shape the West Nile Virus invasion risk across Europe
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
@@ -19,11 +10,7 @@ version](https://img.shields.io/badge/R-%3E%3D4.5.0-blue.svg)](https://cran.r-pr
 **Affiliation:** Department of Epidemiology and Global Health, Umeå
 University, Umeå, Sweden\
 **Contact:** [zia.farooq\@umu.se](mailto:zia.farooq@umu.se){.email}\
-<<<<<<< HEAD
-**Manuscript status:** Under review — *Nature Communications*
-=======
-**Manuscript status:** NA
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
+**Manuscript status:** Under review, *Nature Communications*
 
 ------------------------------------------------------------------------
 
@@ -33,36 +20,30 @@ This repository contains all analysis code and derived data necessary to
 reproduce the primary findings reported in:
 
 > Farooq Z. *Spatial diffusion and climatic suitability shape the West
-<<<<<<< HEAD
 > Nile Virus invasion risk across Europe.*
-=======
-> Nile Virus invasion risk across Europe.* .
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
 
 West Nile virus (WNV) has undergone one of the most remarkable
 geographic expansions in modern European epidemiology, yet the
-mechanisms governing its progressive invasion of previously disease-free
+mechanisms governing its invasion of previously disease-free
 regions remain poorly quantified. This study develops a spatial
 diffusion framework, integrated with time-to-event survival modelling,
 to quantify how geographic proximity to existing viral foci, cumulative
 neighbourhood exposure to surrounding invaded regions, and climatic
-suitability jointly govern regional WNV emergence across 1,050 NUTS3
+suitability jointly govern regional WNV emergence across 1,011 NUTS3
 administrative regions in 18 European countries between 2006 and 2024.
 
-**Key findings:** - 71% of first emergence events occurred within 150 km
-of an existing focus, with invasion risk declining sharply at greater
-distances - Each 100 km of geographic isolation reduced the hazard of
-invasion by 44% (HR = 0.56, 95% CI 0.51–0.63) - Neighbourhood invasion
-<<<<<<< HEAD
-pressure independently increased invasion hazard by 37% per standard
-deviation (HR = 1.37, 95% CI 1.23–1.52) - Warmer temperatures eroded the
-=======
-pressure independently increased invasion hazard by 26% per standard
-deviation (HR = 1.26, 95% CI 1.17–1.32) - Warmer temperatures eroded the
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
-protective barrier of geographic isolation, enabling viral establishment
-at distances that would otherwise remain protected (interaction HR =
-1.07, 95% CI 1.04–1.09)
+**Key findings:**
+
+- 71% of first emergence events occurred within 150 km of an existing
+  focus, with invasion risk declining sharply at greater distances
+- Each 100 km of geographic isolation reduced the hazard of invasion by
+  44% on average across the study period (HR = 0.56, 95% CI 0.50–0.62)
+- Neighbourhood invasion pressure independently increased invasion
+  hazard by 26% on average across the study period, per standard
+  deviation (HR = 1.26, 95% CI 1.17–1.35)
+- Warmer temperatures eroded the protective barrier of geographic
+  isolation, enabling viral establishment at distances that would
+  otherwise remain protected (interaction HR = 1.07, 95% CI 1.04–1.09)
 
 ------------------------------------------------------------------------
 
@@ -83,15 +64,10 @@ WNV_SpatialDiffusion_Europe/
 │   │                                  # Figure 4A–B, Kruskal–Wallis tests
 │   ├── 04_sensitivity_prespecified.R  # λ calibration, alternative kernels,
 │   │                                  # shared frailty, climate anomaly, LOCO
-<<<<<<< HEAD
 │   ├── 05_ph_diagnostics.R            # Schoenfeld residuals, outlier check,
-=======
-│   ├── 05_ph_diagnostics.R            # Schoenfeld residuals,
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
 │   │                                  # time-varying coefficients, case-
 │   │                                  # weighted kernels, phase stratification
-│   └── 06_supplementary_figures.R    # Supplementary Figures S3–S4,
-│                                      # verification summary
+│   └── 06_supplementary_figures.R     # Supplementary figures, verification summary
 │
 ├── data/
 │   ├── analysis_cases.rds             # Main longitudinal panel dataset
@@ -102,7 +78,7 @@ WNV_SpatialDiffusion_Europe/
 │
 ├── outputs/
 │   ├── figures/                       # All main-text and supplementary figures
-│   └── tables/                        # Supplementary tables S1–S7
+│   └── tables/                        # Supplementary tables S1–S10
 │
 └── renv.lock                          # Package version snapshot (renv)
 ```
@@ -219,7 +195,7 @@ source("code/04_sensitivity_prespecified.R")
 # Step 5: Post-hoc PH diagnostics
 source("code/05_ph_diagnostics.R")
 
-# Step 6: Supplementary figures S3–S4 + verification summary
+# Step 6: Supplementary figures + verification summary
 source("code/06_supplementary_figures.R")
 ```
 
@@ -241,16 +217,6 @@ alongside computed values for direct comparison.
 
 ------------------------------------------------------------------------
 
-## Analysis inventory
-
-All 28 distinct analyses are documented in
-[`WNV_Analysis_Inventory.md`](WNV_Analysis_Inventory.md), mapping each
-analysis to its corresponding R script, output (table/figure), and
-manuscript location. This file serves as the complete audit trail
-linking reported findings to specific code.
-
-------------------------------------------------------------------------
-
 ## Key results verification
 
 The final script (`06_supplementary_figures.R`) prints a complete
@@ -259,11 +225,11 @@ computed output. Expected values for the primary model are:
 
 ```         
 PRIMARY MODEL (cox_source_full):
-  Distance HR:    0.56 (0.51–0.63) → 44% reduction per 100 km
-  Pressure HR:    1.37 (1.23–1.52) → 37% increase per SD
-  Temperature HR: 1.24 (1.18–1.31) → 24% increase per 1°C
-  Humidity HR:    0.95 (0.92–0.99) → p = 0.004
-  Concordance:    0.872
+  Distance HR:    0.56 (0.50–0.62) → 44% reduction per 100 km, on average across the study period
+  Pressure HR:    1.26 (1.17–1.35) → 26% increase per SD, on average across the study period
+  Temperature HR: 1.25 (1.19–1.31) → 25% increase per 1°C
+  Humidity HR:    0.96 (0.93–0.99) → p = 0.014
+  Concordance:    0.875
 
 INTERACTION:
   Distance × Temperature HR: 1.07 (1.04–1.09) → p < 0.001
@@ -280,16 +246,11 @@ SPATIAL SCALE:
 
 If you use this code or data in your research, please cite:
 
-**Paper:** \> Farooq Z. Spatial diffusion and climatic suitability shape
-<<<<<<< HEAD
+**Paper:** Farooq Z. Spatial diffusion and climatic suitability shape
 the West Nile Virus invasion risk across Europe. *Nature Communications*
-(under review, 2025).
-=======
-the West Nile Virus invasion risk across Europe. *Manuscript*
 (under review, 2026).
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
 
-**Code and data:** \> Farooq Z. (2025). *WNV Spatial Diffusion Europe*
+**Code and data:** Farooq Z. (2026). *WNV Spatial Diffusion Europe*
 [Code and data]. Zenodo. <https://doi.org/10.5281/zenodo.XXXXXXX>
 
 ------------------------------------------------------------------------
@@ -338,11 +299,7 @@ The author thanks the European Centre for Disease Prevention and Control
 (ECDC) for providing publicly available WNV surveillance data, the
 Copernicus Climate Change Service for ERA5 reanalysis data, and Eurostat
 for NUTS3 administrative boundary shapefiles. This work was supported by
-<<<<<<< HEAD
-[add your funding sources here].
-=======
-Horizon Europe project: IDAlert.
->>>>>>> 716c93b39792b6036a24ad810f956e40a1b9b84a
+the Horizon Europe project IDAlert.
 
 ------------------------------------------------------------------------
 
