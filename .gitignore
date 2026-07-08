@@ -1,0 +1,18 @@
+# OS / editor cruft
+.DS_Store
+.Rproj.user/
+.Rhistory
+.RData
+*.Rproj
+
+# Raw ECDC surveillance data must not be redistributed (see README)
+*WNV_NUTS3cases*.csv
+
+# Large intermediate model objects not needed to reproduce published results
+output/*.rds
+!output/analysis_cases.rds
+
+# Word/Office lock files
+~$*.docx
+~$*.xlsx
+~$*.pptx
