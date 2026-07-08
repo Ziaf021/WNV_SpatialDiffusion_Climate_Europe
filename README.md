@@ -256,8 +256,8 @@ SPATIAL SCALE:
 If you use this code or data in your research, please cite:
 
 **Paper:** \> Farooq Z. Spatial diffusion and climatic suitability shape
-the West Nile Virus invasion risk across Europe. *Nature Communications*
-(under review, 2025).
+the West Nile Virus invasion risk across Europe. *Manuscript*
+(under review, 2026).
 
 **Code and data:** \> Farooq Z. (2025). *WNV Spatial Diffusion Europe*
 [Code and data]. Zenodo. <https://doi.org/10.5281/zenodo.XXXXXXX>
