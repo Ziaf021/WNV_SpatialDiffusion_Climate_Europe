@@ -6,7 +6,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R
 version](https://img.shields.io/badge/R-%3E%3D4.5.0-blue.svg)](https://cran.r-project.org/)
 
-**Author:** Zia Farooq\
+**Author:** Zia Farooq\, Jan C Semenza\
 **Affiliation:** Department of Epidemiology and Global Health, Umeå
 University, Umeå, Sweden\
 **Contact:** [zia.farooq\@umu.se](mailto:zia.farooq@umu.se){.email}\
