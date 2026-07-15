@@ -55,6 +55,7 @@ pipeline <- c(
   "05_ph_diagnostics.R",
   "06_supplementary_figures.R",
   # Main-text and supplementary figures (consume saved model objects from 02/03)
+  "fig1_chronology_map.R",
   "fig2_barplot_pressure.R",
   "fig3_forest_spline.R",
   "fig4_tempdist_interaction.R",
