@@ -85,6 +85,30 @@ WNV_SpatialDiffusion_Europe/
 
 ------------------------------------------------------------------------
 
+## Supplementary figure numbering
+
+Output filenames in `outputs/figures/` and `code/` are numbered to match
+the 9 supplementary figures (S1-S9) in the submitted Supplementary
+Material:
+
+| Figure | Caption (abbreviated) | Script |
+|---|---|---|
+| S1 | Overview of the analytical framework (illustrative schematic; not code-generated) | — |
+| S2 | Sensitivity of invasion pressure metric to spatial-decay parameter (lambda) | `code/04_sensitivity_prespecified.R` |
+| S3 | Stability of primary HR estimates, leave-one-country-out | `code/04_sensitivity_prespecified.R` |
+| S4 | Scaled Schoenfeld residual plots (PH diagnostic) | `code/05_ph_diagnostics.R` |
+| S5 | Temperature at first emergence by invasion-pressure quintile | `code/06_supplementary_figures.R` |
+| S6 | Distance to nearest invaded region by invasion phase | `code/06_supplementary_figures.R` |
+| S7 | Urbanisation composition, first-invaded vs at-risk background | `code/fig_urbanisation_firstinvaded.R` |
+| S8 | Urbanisation composition of first-invaded regions by phase | `code/fig_urbanisation_by_phase.R` |
+| S9 | Phase-specific first-invasion rate by Urbanisation category | `code/fig_urbanisation_rate_by_phase.R` |
+
+`FigureS2_Extra_kernel_comparison.pdf` (from `04_sensitivity_prespecified.R`)
+is an ancillary robustness check supporting Supplementary Table S2; it is
+not one of the 9 numbered supplementary figures in the paper.
+
+------------------------------------------------------------------------
+
 ## Data
 
 ### Primary data sources

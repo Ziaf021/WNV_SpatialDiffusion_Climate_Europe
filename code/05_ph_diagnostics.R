@@ -1,7 +1,7 @@
 ## ============================================================
 ## 05_ph_diagnostics.R   (Analyses 2.7 - 2.11)
 ## Proportional-hazards diagnostics for the WNV diffusion manuscript.
-##   2.7  Schoenfeld residuals / PH test   (Fig S2 + PH table)
+##   2.7  Schoenfeld residuals / PH test   (Fig S4 + PH table)
 ##   2.8  Influence (dfbeta) robustness check
 ##   2.9  Time-varying coefficient model   (Table S6)
 ##   2.10 Case-weighted kernel PH comparison (Table S7)
@@ -103,8 +103,8 @@ ph_doc <- add_tbl(
   make_ft(ph_tbl)
 )
 
-## Fig S2: Schoenfeld residual plots for the two violators
-pdf(file.path(output_dir, "FigureS2_Schoenfeld.pdf"), width = 10, height = 5)
+## Fig S4: Schoenfeld residual plots for the two violators
+pdf(file.path(output_dir, "FigureS4_Schoenfeld.pdf"), width = 10, height = 5)
 par(mfrow = c(1, 2))
 plot(zph_result, var = "distance100",
      main = "A) Distance to nearest invaded region",
@@ -369,7 +369,7 @@ saveRDS(cox_tv2,              file.path(output_dir, "cox_tv2.rds"))
 saveRDS(cox_stratified_phase, file.path(output_dir, "cox_stratified_phase.rds"))
 saveRDS(cox_pr_tv,            file.path(output_dir, "cox_pr_tv.rds"))
 cat("\nWrote: Supplementary_Tables_PH.docx (PH, S6, S7 with precip/urban columns,",
-    "phase-stratified, precipitation sensitivity), FigureS2_Schoenfeld.pdf,",
+    "phase-stratified, precipitation sensitivity), FigureS4_Schoenfeld.pdf,",
     "cox_tv2.rds, cox_stratified_phase.rds, cox_pr_tv.rds\n")
 
 ## ============================================================

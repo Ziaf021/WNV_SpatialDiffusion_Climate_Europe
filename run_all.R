@@ -60,7 +60,8 @@ pipeline <- c(
   "fig3_forest_spline.R",
   "fig4_tempdist_interaction.R",
   "fig_urbanisation_firstinvaded.R",
-  "fig_urbanisation_by_phase.R"
+  "fig_urbanisation_by_phase.R",
+  "fig_urbanisation_rate_by_phase.R"
 )
 
 

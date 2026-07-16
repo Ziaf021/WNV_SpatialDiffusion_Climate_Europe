@@ -1,7 +1,8 @@
 ## ============================================================
 ## fig_urbanisation_by_phase.R
-## Phase-stratified urbanisation composition of first-invaded
-## regions (green urbanisation palette; year-range x-axis).
+## Supplementary Figure S8: Phase-stratified urbanisation
+## composition of first-invaded regions (green urbanisation
+## palette; year-range x-axis).
 ## ============================================================
 
 library(dplyr)
@@ -77,5 +78,5 @@ Fig_Urban_Phase <-
   theme(legend.position = "top")
 
 Fig_Urban_Phase
-ggsave(file.path(output_dir, "Fig_Urbanisation_by_phase.pdf"),
+ggsave(file.path(output_dir, "FigureS8_Urbanisation_by_phase.pdf"),
        Fig_Urban_Phase, width = 8, height = 5)

@@ -1,7 +1,8 @@
 ## ============================================================
 ## fig_urbanisation_firstinvaded.R
-## Urbanisation composition of first-invaded regions vs the
-## at-risk background, with a test of association.
+## Supplementary Figure S7: Urbanisation composition of
+## first-invaded regions vs the at-risk background, with a test
+## of association.
 ## ============================================================
 
 library(dplyr)
@@ -68,7 +69,7 @@ Fig_Urbanisation <-
   theme(legend.position = "top")
 
 Fig_Urbanisation
-ggsave(file.path(output_dir, "Fig_Urbanisation_firstinvaded.pdf"),
+ggsave(file.path(output_dir, "FigureS7_Urbanisation_firstinvaded.pdf"),
        Fig_Urbanisation, width = 7, height = 5)
 
 ## Console summary

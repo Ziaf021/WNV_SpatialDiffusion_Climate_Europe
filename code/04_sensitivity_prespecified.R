@@ -7,12 +7,22 @@
 #
 # Produces MS-Word-ready tables (one consolidated Supplementary_Tables.docx)
 # and the associated supplementary figures:
-#   Table S1 / Figure S1  Decay-parameter (lambda) sensitivity     [Section 1]
+#   Table S1 / Figure S2  Decay-parameter (lambda) sensitivity     [Section 1]
 #   Table S2              Alternative spatial-kernel sensitivity    [Section 2]
+#     (accompanying kernel-comparison figure is an ancillary check,
+#      not one of the 9 numbered supplementary figures in the paper)
 #   Table S3              Country-level shared-frailty model        [Section 3]
 #   Table S4              Climate-anomaly model + AIC comparison    [Section 4]
-#   Table S5 / Figure     Leave-one-country-out (LOCO) analysis     [Section 5]
+#   Table S5 / Figure S3  Leave-one-country-out (LOCO) analysis     [Section 5]
 #   Table 1  (optional)   Primary multivariable model (main text)
+#
+# Note on figure numbering: the *table* numbers above (S1-S5) already match
+# the final submitted Supplementary Material. The *figure* numbers do not,
+# by construction: the paper's 9 supplementary figures are numbered in a
+# separate sequence (S1 = framework overview schematic, S2 = this section's
+# lambda profile, S3 = the LOCO dot plot below, S4 = Schoenfeld residuals in
+# 05_ph_diagnostics.R, S5-S6 = 06_supplementary_figures.R, S7-S9 =
+# fig_urbanisation_*.R). Filenames below were updated to match.
 #
 # Settled specification (see 01_/02_ and the lambda profile below):
 #   lambda_primary = 50 (AIC-minimising); pressure standardised on the
@@ -118,7 +128,7 @@ add_supp <- function(doc, caption, ft, note = NULL) {
 
 
 # =============================================================================
-# Section 1. Decay-parameter (lambda) sensitivity        -> Table S1 / Figure S1
+# Section 1. Decay-parameter (lambda) sensitivity        -> Table S1 / Figure S2
 # =============================================================================
 
 lambda_values <- c(25, 50, 75, 100, 150, 200, 250, 500)
@@ -193,7 +203,7 @@ supp_doc <- add_supp(
   ft_s1
 )
 
-## ---- Figure S1: three-panel lambda profile ---------------------------------
+## ---- Figure S2: three-panel lambda profile ---------------------------------
 P1 <- ggplot(lambda_df, aes(lambda, HR)) +
   geom_ribbon(aes(ymin = lower, ymax = upper), fill = "#FB6A4A", alpha = 0.25) +
   geom_line(linewidth = 1, colour = "#CB181D") +
@@ -232,7 +242,7 @@ P3 <- ggplot(lambda_df, aes(lambda, concordance)) +
 
 Fig_lambda_Sensitivity <- (P1 | P2 | P3) +
   plot_layout(widths = c(1.2, 1, 1)) + plot_annotation(tag_levels = "A")
-ggsave(file.path(output_dir, "FigureS1_lambda_profile.pdf"),
+ggsave(file.path(output_dir, "FigureS2_lambda_profile.pdf"),
        Fig_lambda_Sensitivity, width = 11, height = 4)
 
 
@@ -316,7 +326,9 @@ Fig_kernel_SI <- kernel_df %>%
   geom_col(width = 0.7) +
   facet_wrap(~ Metric, scales = "free_y", nrow = 1) +
   theme_classic2() + theme(legend.position = "none")
-ggsave(file.path(output_dir, "FigureS2_kernel_comparison.pdf"),
+# Ancillary check supporting Table S2 above; not one of the paper's 9
+# numbered supplementary figures (kept for internal QA / reviewer transparency).
+ggsave(file.path(output_dir, "FigureS2_Extra_kernel_comparison.pdf"),
        Fig_kernel_SI, width = 9, height = 3.5)
 
 
@@ -475,7 +487,7 @@ supp_doc <- add_supp(
   note = "Final row: primary full-dataset estimates for reference."
 )
 
-## LOCO dot plot
+## Figure S3: LOCO dot plot
 loco_long <- loco_results %>%
   pivot_longer(c(HR_distance, HR_pressure, HR_temp),
                names_to = "metric", values_to = "HR") %>%
@@ -509,7 +521,7 @@ Fig_LOCO <- ggplot(
   theme_classic2(base_size = 12) +
   theme(strip.text = element_text(face = "bold", size = 11),
         plot.caption = element_text(size = 8, colour = "grey50", hjust = 0))
-ggsave(file.path(output_dir, "FigureS_LOCO_DotPlot.pdf"),
+ggsave(file.path(output_dir, "FigureS3_LOCO_DotPlot.pdf"),
        Fig_LOCO, width = 10, height = 6)
 
 
