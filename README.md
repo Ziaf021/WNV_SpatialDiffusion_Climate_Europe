@@ -19,7 +19,7 @@ University, Umeå, Sweden\
 This repository contains all analysis code and derived data necessary to
 reproduce the primary findings reported in:
 
-> Farooq Z. *Spatial diffusion and climatic suitability shape the West
+> Farooq Z., Semenza JC. *Spatial diffusion and climatic suitability shape the West
 > Nile Virus invasion risk across Europe.*
 
 West Nile virus (WNV) has undergone one of the most remarkable
