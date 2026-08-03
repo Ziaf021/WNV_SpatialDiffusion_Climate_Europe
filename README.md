@@ -10,7 +10,7 @@ version](https://img.shields.io/badge/R-%3E%3D4.5.0-blue.svg)](https://cran.r-pr
 **Affiliation:** Department of Epidemiology and Global Health, Umeå
 University, Umeå, Sweden\
 **Contact:** [zia.farooq\@umu.se](mailto:zia.farooq@umu.se){.email}\
-**Manuscript status:** Under review, *Nature Communications*
+**Manuscript status:** Submitted, *Journal name*
 
 ------------------------------------------------------------------------
 
