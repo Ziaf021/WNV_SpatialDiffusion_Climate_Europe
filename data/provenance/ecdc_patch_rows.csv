@@ -1,0 +1,82 @@
+year,NUTS_ID,ecdc_region_name,ecdc_total_cases,ecdc_code_as_published,source,note
+2011,HU120,Pest county,1,,ECDC Table of cases 2011 (web table),HU102 in NUTS 2013
+2011,ITG2D,Olbia province,1,,ECDC Table of cases 2011 (web table),Olbia-Tempio now within Sassari
+2011,ITG2G,Oristano province,3,,ECDC Table of cases 2011 (web table),ITG28 in NUTS 2013
+2011,TR611,Antalya province,1,,ECDC Table of cases 2011 (web table),
+2011,TR323,Mugla province,1,,ECDC Table of cases 2011 (web table),
+2011,TR422,Sakarya province,1,,ECDC Table of cases 2011 (web table),
+2012,BG341,Burgas oblast,2,,ECDC Table of cases 2012 (web table),
+2012,HU110,Budapest,2,,ECDC Table of cases 2012 (web table),HU101 in NUTS 2013
+2012,HU120,Pest county,1,,ECDC Table of cases 2012 (web table),HU102 in NUTS 2013
+2012,ITG2G,Oristano province,2,,ECDC Table of cases 2012 (web table),ITG28 in NUTS 2013
+2012,HR024,Brodsko-posavska county,1,,ECDC Table of cases 2012 (web table),HR04x in NUTS 2013
+2012,HR025,Osjecko-baranjska county,3,,ECDC Table of cases 2012 (web table),HR04x in NUTS 2013
+2012,HR026,Vukovarsko-srijemska county,1,,ECDC Table of cases 2012 (web table),HR04x in NUTS 2013
+2013,HR061,Medimurska county,1,,ECDC Table of cases 2013 (web table),HR04x in NUTS 2013
+2013,HR050,Zagreb,7,,ECDC Table of cases 2013 (web table),HR04x in NUTS 2013
+2013,HR065,Zagrebacka county,8,,ECDC Table of cases 2013 (web table),HR04x in NUTS 2013
+2013,CZ080,Moravskoslezsky kraj,1,,ECDC Table of cases 2013 (web table),
+2013,HU110,Budapest,6,,ECDC Table of cases 2013 (web table),HU101 in NUTS 2013
+2013,HU120,Pest county,5,,ECDC Table of cases 2013 (web table),HU102 in NUTS 2013
+2014,HU110,Budapest,4,,ECDC Table of cases 2014 (web table),HU101 in NUTS 2013
+2014,HU120,Pest county,1,,ECDC Table of cases 2014 (web table),HU102 in NUTS 2013
+2014,RO126,Sibiu district,1,,ECDC Table of cases 2014 (web table),
+2015,FRJ12,Gard,1,,ECDC Table of cases 2015 (web table),FR812 in NUTS 2013
+2015,HU110,Budapest county,7,,ECDC Table of cases 2015 (web table),HU101 in NUTS 2013
+2016,AT112,Nordburgenland,1,,ECDC Table of cases 2016 (xlsx),
+2016,HR026,Vukovarsko-srijemska zupanija,1,,ECDC Table of cases 2016 (xlsx),HR04x in NUTS 2013
+2016,HU110,Budapest,5,,ECDC Table of cases 2016 (xlsx),HU101 in NUTS 2013
+2016,HU120,Pest,8,,ECDC Table of cases 2016 (xlsx),HU102 in NUTS 2013
+2016,TR310,Izmir,1,,ECDC Table of cases 2016 (xlsx),
+2016,TR331,Manisa,1,,ECDC Table of cases 2016 (xlsx),
+2017,HR050,Grad Zagreb,2,HR041,ECDC Table of cases 2017 (xlsx),
+2017,HR028,Sisacko-moslavacka zupanija,1,HR04E,ECDC Table of cases 2017 (xlsx),
+2017,HR025,Osjecko-baranjska zupanija,1,HR04B,ECDC Table of cases 2017 (xlsx),
+2017,HR061,Medimurska zupanija,1,HR046,ECDC Table of cases 2017 (xlsx),
+2017,FRL03,Alpes-Maritimes,1,FR823,ECDC Table of cases 2017 (xlsx),
+2017,HU110,Budapest,1,HU101,ECDC Table of cases 2017 (xlsx),
+2017,HU120,Pest,4,HU102,ECDC Table of cases 2017 (xlsx),
+2017,ITG2G,Oristano,5,ITG28,ECDC Table of cases 2017 (xlsx),
+2017,TR621,Adana,2,TR621,ECDC Table of cases 2017 (xlsx),
+2017,TRC21,Sanliurfa,2,TRC21,ECDC Table of cases 2017 (xlsx),
+2017,TR631,Hatay,1,TR631,ECDC Table of cases 2017 (xlsx),
+2017,TR100,Istanbul,1,TR100,ECDC Table of cases 2017 (xlsx),
+2017,TR622,Icel,1,TR622,ECDC Table of cases 2017 (xlsx),
+2018,HR024,Brodsko-posavska zupanija,6,,ECDC Table of cases 2018 (xlsx),
+2018,HR050,Grad Zagreb,6,,ECDC Table of cases 2018 (xlsx),
+2018,HR027,Karlovacka zupanija,1,,ECDC Table of cases 2018 (xlsx),
+2018,HR063,Koprivnicko-krizevacka zupanija,6,,ECDC Table of cases 2018 (xlsx),
+2018,HR061,Medimurska zupanija,3,,ECDC Table of cases 2018 (xlsx),
+2018,HR025,Osjecko-baranjska zupanija,15,,ECDC Table of cases 2018 (xlsx),
+2018,HR023,Pozesko-slavonska zupanija,3,,ECDC Table of cases 2018 (xlsx),
+2018,HR062,Varazdinska zupanija,3,,ECDC Table of cases 2018 (xlsx),
+2018,HR022,Viroviticko-podravska zupanija,3,,ECDC Table of cases 2018 (xlsx),
+2018,HR026,Vukovarsko-srijemska zupanija,3,,ECDC Table of cases 2018 (xlsx),
+2018,HR065,Zagrebacka zupanija,4,,ECDC Table of cases 2018 (xlsx),
+2018,FRL03,Alpes-Maritimes,22,,ECDC Table of cases 2018 (xlsx),
+2018,FRL04,Bouches-du-Rhone,1,,ECDC Table of cases 2018 (xlsx),
+2018,FRM01,Corse-du-Sud,2,,ECDC Table of cases 2018 (xlsx),
+2018,FRJ15,Pyrenees-Orientales,1,,ECDC Table of cases 2018 (xlsx),
+2018,FRL06,Vaucluse,1,,ECDC Table of cases 2018 (xlsx),
+2018,HU110,Budapest,11,,ECDC Table of cases 2018 (xlsx),
+2018,HU120,Pest,21,,ECDC Table of cases 2018 (xlsx),
+2018,ITG2G,Oristano,4,,ECDC Table of cases 2018 (xlsx),
+2018,TR621,Adana,9,,ECDC Table of cases 2018 (xlsx),
+2018,TR412,Eskisehir,1,,ECDC Table of cases 2018 (xlsx),
+2018,TR632,Kahramanmaras,1,,ECDC Table of cases 2018 (xlsx),
+2018,TR721,Kayseri,1,,ECDC Table of cases 2018 (xlsx),
+2018,TR422,Sakarya,11,,ECDC Table of cases 2018 (xlsx),
+2019,TR100,Istanbul,10,,ECDC Table of cases 2019 (xlsx),
+2020,ITH32,Vicenza,1,,ECDC Table of cases 2020 (xlsx),
+2022,HR050,Grad Zagreb,1,,ECDC epidemiological update 2022 (text),listed as newly affected; count not published by region; minimum 1 entered
+2022,HR065,Zagrebacka zupanija,1,,ECDC epidemiological update 2022 (text),listed as newly affected; count not published by region; minimum 1 entered
+2022,ES613,Cordoba,1,,ECDC epidemiological update 2022 (text),listed as newly affected; count not published by region; minimum 1 entered
+2023,DE300,Berlin,1,DE300,ECDC Transmission 2023 season (xlsx),
+2023,ES615,Huelva,1,ES615,ECDC Transmission 2023 season (xlsx),
+2023,HR024,Brodsko-posavska zupanija,1,HR024,ECDC Transmission 2023 season (xlsx),
+2023,HR025,Osjecko-baranjska zupanija,2,HR025,ECDC Transmission 2023 season (xlsx),
+2023,HR026,Vukovarsko-srijemska zupanija,1,HR026,ECDC Transmission 2023 season (xlsx),
+2023,HR050,Grad Zagreb,2,HR050,ECDC Transmission 2023 season (xlsx),
+2023,HU231,Baranya,1,HU231,ECDC Transmission 2023 season (xlsx),
+2024,EL621,Zakynthos,1,EL621,ECDC monthly report 2024 dataset (final week W49),
+2024,SK010,Bratislavsky kraj,1,SK010,ECDC monthly report 2024 dataset (final week W49),

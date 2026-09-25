@@ -20,3 +20,17 @@ output/*.rds
 # Superseded/staging artifacts
 run_all.R.orig
 data/temporary
+
+# Raw inputs of the revision pipeline, not redistributed (see README)
+WNV_2025_ECDC*.csv
+WNV_2026_ECDC*.csv
+NUTS3ObsClimate*.csv
+*_ORIGINAL*.csv
+
+# Pipeline run directories and logs
+run_withBalkans*/
+run_lambda*/
+*.log
+
+# Script backups
+*_bak_*.R.txt

@@ -1,330 +1,234 @@
-# Spatial diffusion and climatic suitability shape the West Nile Virus invasion risk across Europe
+# Spatial diffusion and climatic suitability shape West Nile virus invasion risk across Europe
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R
-version](https://img.shields.io/badge/R-%3E%3D4.5.0-blue.svg)](https://cran.r-project.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![R version](https://img.shields.io/badge/R-%3E%3D4.5.0-blue.svg)](https://cran.r-project.org/)
 
-**Author:** Zia Farooq, Jan C. Semenza\
-**Affiliation:** Department of Epidemiology and Global Health, Umeå
-University, Umeå, Sweden\
-**Contact:** [zia.farooq\@umu.se](mailto:zia.farooq@umu.se){.email}\
-**Manuscript status:** Under review, *Nature Communications*
+**Authors:** Zia Farooq, Jan C. Semenza\
+**Affiliations:** Department of Epidemiology and Global Health, Umeå University, Umeå, Sweden (ZF, JCS); Heidelberg Institute of Global Health, University of Heidelberg, Heidelberg, Germany (JCS)\
+**Contact:** [zia.farooq@umu.se](mailto:zia.farooq@umu.se)\
+**Manuscript status:** revised version under review at *The Lancet Regional Health – Europe* (September 2026)
+
+------------------------------------------------------------------------
+
+## Versions
+
+| Tag | Content |
+|---|---|
+| `v2-revision` | **This version.** Code and derived data behind the revised manuscript: 21 countries, 1088 NUTS3 regions followed 2006 to 10 September 2026, model fitted 2007–2024, 2025 and 2026 held out. |
+| `v1-original-submission` | The original submission: 18 countries, 1050 regions, 16 318 region-years, 269 first invasions, fitted 2006–2024. Superseded; kept for the record. |
 
 ------------------------------------------------------------------------
 
 ## Overview
 
-This repository contains all analysis code and derived data necessary to
-reproduce the primary findings reported in:
+We followed 1088 NUTS3 regions in the 21 European countries that have reported at least one locally acquired human West Nile virus (WNV) infection, from 2006 to 2026. Three diffusion metrics were derived for each region and year: distance to the nearest previously invaded region, neighbourhood invasion pressure (a distance-decayed sum over all invaded regions, λ = 50 km) and source-region transmission intensity. Time to first invasion was modelled with a counting-process Cox model over 2007–2024, adjusted for temperature, humidity, precipitation and urbanisation. The fitted model was then applied, without refitting, to the 2025 and 2026 seasons.
 
-> Farooq Z. *Spatial diffusion and climatic suitability shape the West
-> Nile Virus invasion risk across Europe.*
+Of the 1088 regions, 1084 entered the analysis: three were invaded in 2006, the first year of follow-up, and contribute no time at risk, and one Portuguese region has no climatic covariates. The fitted cohort comprises 16 998 region-years and 323 first invasions.
 
-West Nile virus (WNV) has undergone one of the most remarkable
-geographic expansions in modern European epidemiology, yet the
-mechanisms governing its invasion of previously disease-free
-regions remain poorly quantified. This study develops a spatial
-diffusion framework, integrated with time-to-event survival modelling,
-to quantify how geographic proximity to existing viral foci, cumulative
-neighbourhood exposure to surrounding invaded regions, and climatic
-suitability jointly govern regional WNV emergence across 1,011 NUTS3
-administrative regions in 18 European countries between 2006 and 2024.
+**Main results (primary model, 2007–2024)**
 
-**Key findings:**
+| Quantity | Estimate |
+|---|---|
+| Distance to nearest invaded region, HR per 100 km | 0·58 (0·53–0·64) |
+| Neighbourhood invasion pressure, HR per SD | 1·35 (1·26–1·45) |
+| Source-region intensity, HR per unit log(cases + 1) | 1·39 (1·19–1·61) |
+| Annual mean temperature, HR per °C | 1·20 (1·15–1·26) |
+| Distance × temperature interaction, HR | 1·06 (1·04–1·08) |
+| Harrell's C | 0·871 |
+| Out-of-sample AUC, full model | 0·66 (2025), 0·82 (2026) |
 
-- 71% of first emergence events occurred within 150 km of an existing
-  focus, with invasion risk declining sharply at greater distances
-- Each 100 km of geographic isolation reduced the hazard of invasion by
-  44% on average across the study period (HR = 0.56, 95% CI 0.50–0.62)
-- Neighbourhood invasion pressure independently increased invasion
-  hazard by 26% on average across the study period, per standard
-  deviation (HR = 1.26, 95% CI 1.17–1.35)
-- Warmer temperatures eroded the protective barrier of geographic
-  isolation, enabling viral establishment at distances that would
-  otherwise remain protected (interaction HR = 1.07, 95% CI 1.04–1.09)
+Of the 323 first invasions in the fitted period, 239 (74·0%) occurred within 150 km of an existing focus; across 2007–2026, 285 of 381 first invasions with a source (74·8%) did so.
 
 ------------------------------------------------------------------------
 
 ## Repository structure
 
-```         
-WNV_SpatialDiffusion_Europe/
-│
-├── README.md                          # This file
-├── LICENSE                            # MIT licence
-│
-├── code/
-│   ├── 00_data_preparation.R          # Event-history construction, spatial
-│   │                                  # metrics, ERA5 climate aggregation
-│   ├── 02_survival_analyses.R         # Univariable Cox, spline, KM curves,
-│   │                                  # primary multivariable model
-│   ├── 03_interaction_models.R        # Distance × temperature interaction,
-│   │                                  # Figure 4A–B, Kruskal–Wallis tests
-│   ├── 04_sensitivity_prespecified.R  # λ calibration, alternative kernels,
-│   │                                  # shared frailty, climate anomaly, LOCO
-│   ├── 05_ph_diagnostics.R            # Schoenfeld residuals, outlier check,
-│   │                                  # time-varying coefficients, case-
-│   │                                  # weighted kernels, phase stratification
-│   └── 06_supplementary_figures.R     # Supplementary figures, verification summary
-│
-├── data/
-│   ├── analysis_cases.rds             # Main longitudinal panel dataset
-│   │                                  # (16,318 region-years, 269 events)
-│   ├── dist_mat.rds                   # Pairwise NUTS3 centroid distance
-│   │                                  # matrix (km, EPSG:3035)
-│   └── codebook.md                    # Variable definitions and units
-│
-├── outputs/
-│   ├── figures/                       # All main-text and supplementary figures
-│   └── tables/                        # Supplementary tables S1–S10
-│
-└── renv.lock                          # Package version snapshot (renv)
 ```
-
-------------------------------------------------------------------------
-
-## Supplementary figure numbering
-
-Output filenames in `outputs/figures/` and `code/` are numbered to match
-the 9 supplementary figures (S1-S9) in the submitted Supplementary
-Material:
-
-| Figure | Caption (abbreviated) | Script |
-|---|---|---|
-| S1 | Overview of the analytical framework (illustrative schematic; not code-generated) | — |
-| S2 | Sensitivity of invasion pressure metric to spatial-decay parameter (lambda) | `code/04_sensitivity_prespecified.R` |
-| S3 | Stability of primary HR estimates, leave-one-country-out | `code/04_sensitivity_prespecified.R` |
-| S4 | Scaled Schoenfeld residual plots (PH diagnostic) | `code/05_ph_diagnostics.R` |
-| S5 | Temperature at first emergence by invasion-pressure quintile | `code/06_supplementary_figures.R` |
-| S6 | Distance to nearest invaded region by invasion phase | `code/06_supplementary_figures.R` |
-| S7 | Urbanisation composition, first-invaded vs at-risk background | `code/fig_urbanisation_firstinvaded.R` |
-| S8 | Urbanisation composition of first-invaded regions by phase | `code/fig_urbanisation_by_phase.R` |
-| S9 | Phase-specific first-invasion rate by Urbanisation category | `code/fig_urbanisation_rate_by_phase.R` |
-
-`FigureS2_Extra_kernel_comparison.pdf` (from `04_sensitivity_prespecified.R`)
-is an ancillary robustness check supporting Supplementary Table S2; it is
-not one of the 9 numbered supplementary figures in the paper.
+WNV_SpatialDiffusion_Climate_Europe/
+├── README.md
+├── LICENSE
+├── run_revision_v3.sh              Full pipeline driver (steps 1–23)
+├── run_fig.sh                      Builds one figure at a time
+├── run_withBalkans_v2.R            Step 2: data preparation and model fit (00, 02, 03)
+├── run_supplementary_v2.R          Step 5: sensitivity analyses and diagnostics (04, 05, 06)
+├── merge_balkan_cases.py           Step 1: merges the Western Balkans series into the case file
+├── code/
+│   ├── 00_data_preparation_withBalkans.R   Event history, diffusion metrics, climate join
+│   ├── 02_survival_analyses.R              Univariable models, distance spline, KM, primary model
+│   ├── 03_interaction_models.R             Distance × temperature interaction, LR test for intensity
+│   ├── 04_sensitivity_prespecified_02.R    λ profile, kernels, frailty, climatic anomaly, leave-one-country-out
+│   ├── 05_ph_diagnostics_2.R               Schoenfeld tests, time-varying and phase-stratified models
+│   ├── 06_supplementary_figures.R          Supplementary Figures S5 and S6
+│   ├── 08_revision_analyses.R              Region area, boundary distance, pressure deciles,
+│   │                                       mountain/coast, cross-border, direction of invasion
+│   ├── 09_prospective_validation_v2.R      Out-of-sample test, 2025 and 2026
+│   ├── 10_climate_nuts_crosswalk.R         Re-keys the climate file to NUTS 2021
+│   ├── 12_regional_composition.R           Regional composition of first invasions
+│   ├── 12b_direction_latitude_4periods.R   Latitude and regional composition, four periods
+│   ├── 13_table1_univariable.R             Table 1
+│   ├── _wnv_style.R, _wnv_figdata.R        Shared figure style and data loader
+│   ├── fig01*.R … fig05*.R                 Main-text figures
+│   ├── figS10_directionality_rose.R        Supplementary Figure S10
+│   └── fig_urbanisation_*.R, urbanisation_phase_enrichment.R
+│                                           Supplementary Figures S7–S9
+└── data/
+    ├── WNV_SurvivalDataset_withBalkans.csv   Derived analytical dataset (CSV)
+    ├── analysis_cases_withBalkans.rds        The same dataset as an R object
+    ├── spatial_objects_withBalkans.rds       Distance matrix, decay weights, first-invasion years
+    ├── codebook.md                           Variable definitions
+    └── provenance/
+        ├── ecdc_patch_rows.csv               The 81 region-years added from ECDC tables (Appendix S3)
+        ├── WNV_Serbia_ECDC_verification.xlsx
+        ├── WNV_Balkans_ECDC_verification.xlsx
+        └── sessionInfo_v3_refit.txt          R session of the model refit
+```
 
 ------------------------------------------------------------------------
 
 ## Data
 
-### Primary data sources
+### Sources
 
-| Source | Description | Access |
-|------------------------|------------------------|------------------------|
-| [ECDC WNV Surveillance](https://www.ecdc.europa.eu/en/west-nile-virus-infection) | Annual human WNV case counts at NUTS3 level, 2006–2024 | Freely downloadable |
-| [ERA5 Reanalysis](https://cds.climate.copernicus.eu/) | Annual mean temperature, precipitation, relative humidity at 0.25° × 0.25° | Freely downloadable (registration required) |
-| [Eurostat NUTS3 boundaries](https://ec.europa.eu/eurostat/web/gisco/geodata) | NUTS3 administrative shapefiles, 2021 release, EPSG:3035 | Freely downloadable |
-| [Eurostat urban-rural typology](https://ec.europa.eu/eurostat/statistics-explained/index.php/Urban-rural_typology) | NUTS3 urbanisation category (urban / intermediate / rural) | Freely downloadable |
+| Source | Content | Access |
+|---|---|---|
+| [ECDC WNV surveillance](https://www.ecdc.europa.eu/en/west-nile-virus-infection) | Locally acquired human WNV infections by NUTS3 region and season; region-level web tables 2011–2026 | Public; subject to ECDC terms of reuse |
+| [ISIMIP3a obsclim](https://doi.org/10.48364/ISIMIP.982724) (20crv3-era5, bias-adjusted) | Annual temperature, precipitation and relative humidity, 1991–2024, aggregated to NUTS3 | Public |
+| [Eurostat GISCO](https://ec.europa.eu/eurostat/web/gisco/geodata) | NUTS 2021 boundaries (EPSG:3035), retrieved with the `eurostat` R package | Public |
+| [Eurostat urban-rural typology](https://ec.europa.eu/eurostat/statistics-explained/index.php/Urban-rural_typology) | NUTS3 urbanisation category | Public |
 
-### Derived analytical dataset (`data/analysis_cases.rds`)
+**Raw ECDC case files are not redistributed.** The repository holds the analysis code and the derived analytical dataset only. The derived dataset contains the annual case count for each region-year (`wnf_sum`, `cases`), because the source-intensity metric is built from it.
 
-The primary analytical dataset is a longitudinal panel of 16,318 NUTS3
-region-year observations across 18 European countries (2006–2024),
-constructed from the raw data sources above. It is provided as a
-compressed R data object and can be loaded directly into R without
-re-running the full data preparation pipeline.
+### Derived analytical dataset
 
-**Raw ECDC surveillance data are not redistributed in this repository**
-in accordance with ECDC terms of use. Raw data can be downloaded
-directly from the ECDC website. The `00_data_preparation.R` script
-documents all processing steps required to reproduce the derived dataset
-from the raw inputs.
+`data/WNV_SurvivalDataset_withBalkans.csv` (and the identical `analysis_cases_withBalkans.rds`) holds one row per region and year at risk: 16 998 rows, 27 columns, 1084 regions, 21 countries, 323 events, 2007–2024. Variables are defined in [`data/codebook.md`](data/codebook.md). The 2025 and 2026 seasons used for the out-of-sample test are not part of this file.
 
-### Variable codebook
+### Provenance of the case data
 
-Full variable definitions are provided in `data/codebook.md`. Key
-variables:
-
-| Variable | Type | Description |
-|------------------------|------------------------|------------------------|
-| `NUTS_ID` | character | NUTS3 region identifier |
-| `CNTR_CODE` | character | ISO country code (2-letter) |
-| `year` | integer | Calendar year (2007–2024) |
-| `event` | binary | First locally acquired human WNV infection (1 = yes) |
-| `start` / `stop` | integer | Counting-process interval boundaries |
-| `distance100` | numeric | Distance to nearest invaded region (units of 100 km) |
-| `invasion_pressure` | numeric | Raw neighbourhood invasion pressure index (Φ, dimensionless) |
-| `pressure_z` | numeric | Standardised invasion pressure (mean=0, SD=1) |
-| `log_cases_nearest` | numeric | log(1 + cases) in nearest invaded source region |
-| `tas` | numeric | Annual mean air temperature (°C, ERA5) |
-| `pr` | numeric | Annual total precipitation (mm/s, ERA5) |
-| `hurs` | numeric | Annual mean relative humidity (%, ERA5) |
-| `URBN_TYPE` | integer | Urbanisation category (1=urban, 2=intermediate, 3=rural) |
-| `invasion_phase` | factor | Study phase (Early/Middle/Pre-COVID/Post-COVID) |
+- **ECDC extract repair (Appendix, Supplementary Methods S3).** The NUTS3 extract lacked records that ECDC had received under pre-2021 NUTS codes (mainly Croatia, Budapest and Pest, France and Sardinia) and held no Turkish record before 2024. Comparing it season by season with ECDC's published tables for 2011–2024 added 81 region-years; no existing count was changed. Each added row, with its ECDC source, is listed in `data/provenance/ecdc_patch_rows.csv`.
+- **Western Balkans.** Region-level series for Serbia, Albania, North Macedonia and Montenegro were compiled from ECDC publications. The two verification workbooks in `data/provenance/` list the source of every row and the NUTS3 or GAUL unit it was assigned to. ECDC published no region-level table for these countries in 2020, 2022 and 2023, and Serbian cases only at country level in 2017.
 
 ------------------------------------------------------------------------
 
-## Reproducing the analyses
+## Quick check from the derived dataset
 
-### Prerequisites
+The primary model can be refitted from the CSV alone:
 
-**R version:** ≥ 4.5.0\
-**Package management:** This repository uses
-[`renv`](https://rstudio.github.io/renv/) for reproducible package
-environments. All package versions are recorded in `renv.lock`.
+```r
+library(survival)
+d <- read.csv("data/WNV_SurvivalDataset_withBalkans.csv")
 
-**Required R packages:**
+fit <- coxph(Surv(start, stop, event) ~ distance100 + pressure_z + log_cases_nearest +
+               tas + hurs + pr_z + factor(URBN_TYPE),
+             data = d, ties = "efron")
+summary(fit)
 
-``` r
-# Core analysis
-library(survival)    # Cox PH models, survfit, cox.zph
-library(dplyr)       # Data manipulation
-library(tidyr)       # Data reshaping (LOCO analysis)
-
-# Spatial
-library(sf)          # Centroid computation, distance calculation
-
-# Climate data extraction
-library(terra)       # ERA5 raster handling
-library(exactextractr) # Area-weighted spatial aggregation to NUTS3
-
-# Visualisation
-library(ggplot2)
-library(ggthemes)
-
-# Reproducibility
-library(renv)
-library(broom)
+fit_int <- coxph(Surv(start, stop, event) ~ distance100 * tas + pressure_z +
+                   log_cases_nearest + hurs + pr_z + factor(URBN_TYPE),
+                 data = d, ties = "efron")
+summary(fit_int)$conf.int["distance100:tas", ]
 ```
 
-**Install all packages from the lockfile:**
+Expected output:
 
-``` r
-install.packages("renv")
-renv::restore()
 ```
+distance100         0.580  (0.528–0.637)
+pressure_z          1.353  (1.260–1.453)
+log_cases_nearest   1.388  (1.193–1.615)
+tas                 1.203  (1.148–1.259)
+hurs                0.973  (0.948–0.998)
+pr_z                0.914  (0.806–1.037)
+URBN_TYPE 2         0.789  (0.589–1.056)
+URBN_TYPE 3         0.724  (0.532–0.986)
+Concordance         0.871
+distance100:tas     1.060  (1.037–1.084)
 
-### Running order
-
-Scripts must be run in numerical order. Each script saves intermediate R
-objects (`.rds` files) that are loaded by subsequent scripts.
-
-``` r
-# Step 1: Build derived dataset from raw inputs
-source("code/00_data_preparation.R")
-
-# Step 2: Univariable Cox, spline, KM, primary multivariable model
-source("code/02_survival_analyses.R")
-
-# Step 3: Interaction models, Figure 4A–B, KW tests
-source("code/03_interaction_models.R")
-
-# Step 4: Five pre-specified sensitivity analyses
-source("code/04_sensitivity_prespecified.R")
-
-# Step 5: Post-hoc PH diagnostics
-source("code/05_ph_diagnostics.R")
-
-# Step 6: Supplementary figures + verification summary
-source("code/06_supplementary_figures.R")
+Distance at first invasion (nearest_invaded_km, event == 1, n = 323):
+  within  75 km   150/323  (46·4%)
+  within 150 km   239/323  (74·0%)
+  within 300 km   287/323  (88·9%)
+  beyond 500 km     9/323   (2·8%)
+  median           80·1 km
 ```
-
-**If you already have `data/analysis_cases.rds`**, you can skip
-`00_data_preparation.R` and begin at step 2. Each script includes
-internal safety checks and prints expected values from the manuscript
-alongside computed values for direct comparison.
-
-### Expected run times (approximate, on a standard laptop)
-
-| Script | Approximate time |
-|------------------------------------|------------------------------------|
-| 00_data_preparation.R | 10–30 min (ERA5 extraction is the bottleneck) |
-| 02_survival_analyses.R | \< 2 min |
-| 03_interaction_models.R | \< 2 min |
-| 04_sensitivity_prespecified.R | 5–15 min (LOCO × 18 countries) |
-| 05_ph_diagnostics.R | 3–5 min (time-varying model) |
-| 06_supplementary_figures.R | \< 1 min |
 
 ------------------------------------------------------------------------
 
-## Key results verification
+## Reproducing the full analysis
 
-The final script (`06_supplementary_figures.R`) prints a complete
-verification summary comparing every key manuscript number against the
-computed output. Expected values for the primary model are:
+### Requirements
 
-```         
-PRIMARY MODEL (cox_source_full):
-  Distance HR:    0.56 (0.50–0.62) → 44% reduction per 100 km, on average across the study period
-  Pressure HR:    1.26 (1.17–1.35) → 26% increase per SD, on average across the study period
-  Temperature HR: 1.25 (1.19–1.31) → 25% increase per 1°C
-  Humidity HR:    0.96 (0.93–0.99) → p = 0.014
-  Concordance:    0.875
+- R ≥ 4.5.0 with `survival`, `dplyr`, `tidyr`, `tidyverse`, `sf`, `units`, `eurostat`, `broom`, `ggplot2`, `ggthemes`, `ggpubr`, `patchwork`, `cowplot`, `ggnewscale`, `scales`, `forcats`, `survminer`, `officer`, `flextable`; optionally `svglite`, `ragg` and `ggspatial`. The versions used are listed in `data/provenance/sessionInfo_v3_refit.txt`.
+- Python 3 (standard library only) for step 1.
+- Internet access on first run, to download NUTS 2021 geometry through `eurostat`.
 
-INTERACTION:
-  Distance × Temperature HR: 1.07 (1.04–1.09) → p < 0.001
+### Inputs you must supply
 
-SPATIAL SCALE:
-  Within 75 km:  121/269 (45.0%)
-  Within 150 km: 192/269 (71.4%)
-  Within 300 km: 236/269 (87.7%)
+Place these in the repository root. They are not included for licensing reasons.
+
+| File | Content |
+|---|---|
+| `WNV_NUTS3cases_2006to2025.csv` | ECDC NUTS3 case extract, 2006–2025, with the rows in `data/provenance/ecdc_patch_rows.csv` added |
+| `WNV_Serbia_NUTS3cases_2006to2025.csv`, `WNV_Balkans_NUTS3cases_2006to2025.csv` | Western Balkans series (sources in the verification workbooks) |
+| `NUTS3ObsClimate_1991to2024.csv` | ISIMIP3a obsclim variables aggregated to NUTS3 |
+| `WNV_2025_ECDC_regions.csv`, `WNV_2026_ECDC.csv` | ECDC region-level tables for the 2025 season and for 2026 to 10 September |
+
+### Running
+
+```bash
+Rscript code/10_climate_nuts_crosswalk.R
+bash run_revision_v3.sh
 ```
+
+`10_climate_nuts_crosswalk.R` writes the NUTS 2021-keyed climate file to `run_withBalkans/output/revision/`. `run_revision_v3.sh` then runs, in order: the Balkans merge (step 1), data preparation and model fit (2), revision analyses (3), out-of-sample test (4), sensitivity analyses and diagnostics (5), Table 1 (6), regional composition (7), direction and latitude (8), each main and supplementary figure (9–22) and the urbanisation figures (23). All output goes to `run_withBalkans_v3/`. A failed run can be resumed with `START=<step> bash run_revision_v3.sh`.
+
+A single figure is rebuilt with, for example, `WNV_RUN_DIR=run_withBalkans_v3 bash run_fig.sh 4`; `bash run_fig.sh list` shows the keys. The scripts read the environment variables `WNV_RUN_DIR`, `WNV_EXPECTED_EVENTS`, `WNV_CLIMATE_FILE`, `WNV_LAMBDA` and `WNV_FIG4A_VIOLIN`.
+
+### Where each result comes from
+
+| Manuscript item | Script | Output (under `run_withBalkans_v3/output/`) |
+|---|---|---|
+| Table 1 | `13_table1_univariable.R` | `revision/rev_table1_univariable.*` |
+| Primary and interaction models | `02`, `03` via `run_withBalkans_v2.R` | `multivariable_model_*.csv`, `headline_numbers_*.csv` |
+| Figure 1 | `fig01a_facet_periods.R`, `fig01b_country_year.R`, `fig01f_combined.R` | `revision/figures/Figure1_Facet_AB.*` |
+| Figure 2 | `fig02a_*`, `fig02b_*`, `fig02_combined.R` | `revision/figures/Figure2_Main_AB.*` |
+| Figure 3 | `fig03_forest_spline_km.R` | `revision/figures/Figure3_forest_spline_km.*` |
+| Figure 4 | `fig04a_*`, `fig04b_*`, `fig04_combined.R` | `revision/figures/Figure4_Main_AB.*` |
+| Figure 5, out-of-sample AUC | `09_prospective_validation_v2.R`, `fig05_out_of_sample.R` | `revision/rev_prospective_*.csv`, `revision/figures/Figure5_out_of_sample.*` |
+| Supplementary Figures S2, S3; Tables S1–S5 | `04_sensitivity_prespecified_02.R` | `supplementary/FigureS1_lambda_profile.pdf`, `FigureS_LOCO_DotPlot.pdf`, `Supplementary_Tables.docx` |
+| Supplementary Figure S4; Tables S6–S10 | `05_ph_diagnostics_2.R` | `supplementary/FigureS2_Schoenfeld.pdf`, `Supplementary_Tables_PH.docx` |
+| Supplementary Figures S5, S6 | `06_supplementary_figures.R` | `supplementary/Supplementary_Figure_S3_TempByPressure.pdf`, `…_S4_DistanceByPhase.pdf` |
+| Supplementary Figures S7, S8, S9 | `fig_urbanisation_firstinvaded.R`, `fig_urbanisation_by_phase.R`, `urbanisation_phase_enrichment.R` | `Fig_Urbanisation_*.pdf` |
+| Supplementary Figure S10 | `figS10_directionality_rose.R` | `revision/figures/FigureS10_directionality_rose.*` |
+| Supplementary Tables S11–S13, S15 | `08_revision_analyses.R` | `revision/rev_area_*.csv`, `rev_pressure_decile_rates.csv`, `rev_mountain_coast_models.csv`, `rev_boundary_distance_models.csv` |
+| Supplementary Table S14 and its note | `08_revision_analyses.R`, `12_regional_composition.R`, `12b_direction_latitude_4periods.R` | `revision/rev_directionality*.csv`, `rev_latitude_change_2007_2026.csv`, `rev_regional_*_4p.csv` |
+
+Output file names from `04`, `05` and `06` keep the analysis numbering used while the code was written; the table above gives the corresponding figure numbers in the revised appendix. `fig01a_chronology_map.R` and `fig01_combined.R` build an alternative, unfaceted layout of Figure 1 that was not submitted.
 
 ------------------------------------------------------------------------
 
 ## Citation
 
-If you use this code or data in your research, please cite:
+Farooq Z, Semenza JC. Spatial diffusion and climatic suitability shape West Nile virus invasion risk across Europe. Under review, 2026.
 
-**Paper:** Farooq Z. Spatial diffusion and climatic suitability shape
-the West Nile Virus invasion risk across Europe. *Nature Communications*
-(under review, 2026).
-
-**Code and data:** Farooq Z. (2026). *WNV Spatial Diffusion Europe*
-[Code and data]. Zenodo. <https://doi.org/10.5281/zenodo.XXXXXXX>
-
-------------------------------------------------------------------------
+Code and data: Farooq Z, Semenza JC. WNV_SpatialDiffusion_Climate_Europe, release `v2-revision` (2026). <https://github.com/Ziaf021/WNV_SpatialDiffusion_Climate_Europe>
 
 ## Related publications
 
-This work extends and complements the following published studies:
-
--   Farooq Z, Segelmark L, Rocklöv J, et al. Impact of climate and
-    *Aedes albopictus* establishment on dengue and chikungunya outbreaks
-    in Europe: a time-to-event analysis. *Lancet Planetary Health* 2025;
-    9:e374–e383.
--   Farooq Z, Rocklöv J, Wallin J, et al. Artificial intelligence to
-    predict West Nile virus outbreaks with eco-climatic drivers. *Lancet
-    Regional Health – Europe* 2022; 17:100370.
--   Farooq Z, Sjödin H, Semenza JC, et al. European projections of West
-    Nile virus transmission under climate change scenarios. *One Health*
-    2023; 16:100509.
-
-------------------------------------------------------------------------
+- Farooq Z, Segelmark L, Rocklöv J, et al. Impact of climate and *Aedes albopictus* establishment on dengue and chikungunya outbreaks in Europe: a time-to-event analysis. *Lancet Planet Health* 2025; 9: e374–83.
+- Farooq Z, Rocklöv J, Wallin J, et al. Artificial intelligence to predict West Nile virus outbreaks with eco-climatic drivers. *Lancet Reg Health Eur* 2022; 17: 100370.
+- Farooq Z, Sjödin H, Semenza JC, et al. European projections of West Nile virus transmission under climate change scenarios. *One Health* 2023; 16: 100509.
 
 ## Licence
 
-This repository is licensed under the [MIT Licence](LICENSE). You are
-free to use, modify, and distribute the code with appropriate
-attribution. The derived analytical dataset (`data/analysis_cases.rds`)
-is shared under [CC BY
-4.0](https://creativecommons.org/licenses/by/4.0/).
+Code: [MIT](LICENSE). Derived dataset and provenance files: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Case counts originate from ECDC and remain subject to ECDC's terms of reuse.
 
-------------------------------------------------------------------------
+## Issues
 
-## Contributing and issues
-
-This repository is associated with a submitted manuscript and is not
-actively accepting contributions. If you identify an error or have a
-question about the analysis, please open a [GitHub
-Issue](https://github.com/Ziaf021/WNV_SpatialDiffusion_Climate_Europe/issues)
-or contact the author directly at
-[zia.farooq\@umu.se](mailto:zia.farooq@umu.se){.email}.
-
-------------------------------------------------------------------------
+Errors or questions about the analysis: open a [GitHub issue](https://github.com/Ziaf021/WNV_SpatialDiffusion_Climate_Europe/issues) or write to [zia.farooq@umu.se](mailto:zia.farooq@umu.se).
 
 ## Acknowledgements
 
-The author thanks the European Centre for Disease Prevention and Control
-(ECDC) for providing publicly available WNV surveillance data, the
-Copernicus Climate Change Service for ERA5 reanalysis data, and Eurostat
-for NUTS3 administrative boundary shapefiles. This work was supported by
-the Horizon Europe project IDAlert.
+We thank the European Centre for Disease Prevention and Control for its public WNV surveillance data, the ISIMIP project for the observational climate forcing, and Eurostat for the NUTS boundaries. This work was supported by the Horizon Europe project IDAlert.
 
 ------------------------------------------------------------------------
 
-*Last updated: July 2026*
+*Last updated: September 2026*

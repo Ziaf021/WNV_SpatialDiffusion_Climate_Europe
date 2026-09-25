@@ -1,130 +1,123 @@
-# Data Codebook — analysis_cases.rds
+# Codebook: derived analytical dataset
 
-## WNV Spatial Diffusion Europe
-
-## Zia Farooq, Umeå University
+Farooq Z, Semenza JC. *Spatial diffusion and climatic suitability shape West Nile virus invasion risk across Europe.* Repository release `v2-revision`.
 
 ------------------------------------------------------------------------
 
-## Dataset overview
+## Files
 
-**File:** `data/analysis_cases.rds`\
-**Format:** R data frame (compressed RDS)\
-**Dimensions:** 16,318 rows × 25 columns\
-**Unit of observation:** NUTS3 administrative region × calendar year\
-**Study period:** 2006–2024\
-**Countries:** 18 European countries with at least one confirmed locally acquired human WNV infection during the study period\
-**Exclusions:** NUTS3 regions outside continental Europe (overseas territories)
+| File | Format | Content |
+|---|---|---|
+| `WNV_SurvivalDataset_withBalkans.csv` | CSV, UTF-8 | Region-year panel used to fit all Cox models |
+| `analysis_cases_withBalkans.rds` | R tibble | The same panel (identical columns and values) |
+| `spatial_objects_withBalkans.rds` | R list | Spatial objects for all 1088 cohort regions (see below) |
 
-Load in R with: `analysis_cases <- readRDS("data/analysis_cases.rds")`
+```r
+d <- read.csv("data/WNV_SurvivalDataset_withBalkans.csv")
+# or
+d <- readRDS("data/analysis_cases_withBalkans.rds")
+```
+
+**Dimensions:** 16 998 rows × 27 columns\
+**Unit of observation:** NUTS3 region (NUTS 2021) × calendar year at risk\
+**Years:** 2007–2024 (regions followed from 2006; the 2006 row is not an at-risk year, because distance to the nearest invaded region is undefined before any region is invaded)\
+**Regions / countries:** 1084 regions in 21 countries: AL, AT, BG, CY, CZ, DE, EL, ES, FR, HR, HU, IT, ME, MK, NL, PT, RO, RS, SI, SK, TR\
+**Events:** 323 first invasions
+
+The cohort contains 1088 regions. Four are absent from the panel: three regions invaded in 2006 (one Hungarian, two Romanian), which have no time at risk but act as sources for other regions throughout, and one Portuguese region without climatic covariates. Five French overseas regions were excluded before the cohort was defined. The 2025 and 2026 seasons, used only for the out-of-sample test, are not in this file.
 
 ------------------------------------------------------------------------
 
-## Variable definitions
+## Variables
 
-### Region identifiers
+### Identifiers
 
 | Variable | Type | Description |
-|----|----|----|
-| `CNTR_CODE` | character | ISO 3166-1 alpha-2 country code (e.g. "DE", "IT", "EL") |
-| `NUTS_ID` | character | Eurostat NUTS3 region identifier (e.g. "AT111", "DE212") |
-| `NUTS_NAME` | character | NUTS3 region name in local language |
+|---|---|---|
+| `CNTR_CODE` | character | Eurostat country code (`EL` = Greece) |
+| `NUTS_ID` | character | NUTS3 code, 2021 release |
+| `NUTS_NAME` | character | Region name in the national language and script |
 
-------------------------------------------------------------------------
+### Time structure
 
-### Temporal structure
+| Variable | Type | Description |
+|---|---|---|
+| `year` | integer | Calendar year, 2007–2024 |
+| `start` | integer | Start of the counting-process interval, `year − 2006` (1–18) |
+| `stop` | integer | End of the interval, `start + 1` (2–19) |
 
-| Variable | Type | Units | Description |
-|----|----|----|----|
-| `year` | integer | Calendar year | Observation year (2007–2024; baseline t₀ = 2006) |
-| `start` | integer | Years since 2006 | Start of counting-process interval (startᵢₜ = t − 2006) |
-| `stop` | numeric | Years since 2006 | End of counting-process interval (stopᵢₜ = startᵢₜ + 1) |
+A region contributes one row per year until its first invasion or until 2024. A region never invaded by 2024 is right-censored at `stop = 19`.
 
-------------------------------------------------------------------------
+### Outcome and case counts
 
-### Outcome variable
+| Variable | Type | Description |
+|---|---|---|
+| `event` | 0/1 | 1 in the year of first recorded locally acquired human WNV infection in the region, 0 otherwise |
+| `first_year` | integer / NA | Year of first invasion; NA if not invaded by 2024 |
+| `wnf_sum` | integer | Locally acquired human WNV infections reported in the region in that year (ECDC, with the additions documented in `provenance/`) |
+| `outbreak` | 0/1 | 1 if `wnf_sum > 0` |
+| `cases` | numeric | Case count in the source region `nearest_source` in the previous year; the input to `log_cases_nearest` |
 
-| Variable | Type | Values | Description |
-|----|----|----|----|
-| `event` | numeric (0/1) | 0 = no first invasion, 1 = first invasion | First recorded occurrence of at least one confirmed locally acquired human WNV infection in a previously disease-free region. Set to 1 only in the calendar year of first invasion. Regions remaining disease-free throughout are right-censored (event = 0 for all years). |
-| `wnf_sum` | integer | ≥ 0 | Raw count of confirmed locally acquired human WNV cases in the NUTS3 region in the focal year |
-| `outbreak` | numeric (0/1) | 0 = no outbreak, 1 = outbreak | Binary indicator of any WNV cases in the focal year (not restricted to first occurrence) |
-| `first_year` | integer / NA | Year, or NA | Calendar year of first recorded WNV invasion in the region. NA for regions that remained disease-free throughout the study period. |
+### Diffusion metrics
 
-------------------------------------------------------------------------
-
-### Spatial diffusion metrics
-
-| Variable | Type | Units | Description |
-|----|----|----|----|
-| `nearest_invaded_km` | numeric | km | Euclidean distance from the NUTS3 region centroid to the centroid of the nearest region with documented WNV transmission prior to the focal year. Calculated in EPSG:3035 (Lambert Azimuthal Equal Area). Updated annually as new regions are invaded. |
-| `distance100` | numeric | per 100 km | Geographic distance to nearest invaded region, scaled to units of 100 km (= nearest_invaded_km / 100). This is the form used in all Cox models; HRs are interpreted per 100 km increase. |
-| `invasion_pressure` | numeric | dimensionless | Raw neighbourhood invasion pressure index (Φᵢₜ). Calculated as the distance-decayed sum of contributions from all regions with documented WNV transmission prior to year t: Φᵢₜ = Σⱼ exp(−dᵢⱼ / λ), where λ = 50 km (profile-likelihood optimised). Right-skewed distribution; standardised version (pressure_z) used in models. |
-| `pressure_z` | numeric | SD units | Neighbourhood invasion pressure standardised to mean = 0, SD = 1. Used in all Cox models; HRs are interpreted per one standard deviation increase in the unstandardised index (Φ). |
-| `cases` | numeric | count | Reported human WNV case count in the NUTS3 region in the focal year (used to compute log_cases_nearest for neighbouring regions in subsequent years). |
-| `log_cases_nearest` | numeric | log-scale | Natural log of (1 + case count) in the nearest previously invaded region in year t−1. The log(1+x) transformation handles zero-case years. Used as the source-region transmission intensity metric (Sᵢₜ). |
-
-------------------------------------------------------------------------
-
-### Climatic covariates (ERA5, 2006–2024)
-
-All climatic variables derived from the ERA5 global atmospheric reanalysis dataset (Hersbach et al. 2020, Q J Roy Meteor Soc) at 0.25° × 0.25° spatial resolution, spatially aggregated to NUTS3 using area-weighted averaging.
+All distances are between region centroids in EPSG:3035 and use only regions invaded **before** the focal year.
 
 | Variable | Type | Units | Description |
-|----|----|----|----|
-| `tas` | numeric | °C | Annual mean air temperature (2 metres above surface). Primary indicator of climatic suitability for mosquito development and viral replication. Used in original units in Cox models. |
-| `tasmax` | numeric | °C | Annual mean daily maximum air temperature. Not used in primary models; available for sensitivity analyses. |
-| `tasmin` | numeric | °C | Annual mean daily minimum air temperature. Not used in primary models; available for sensitivity analyses. |
-| `pr` | numeric | mm/s | Annual total precipitation rate. Standardised using scale(pr) in Cox models (mean = 0, SD = 1). |
-| `hurs` | numeric | \% | Annual mean near-surface relative humidity. Used in original units (%) in Cox models. |
+|---|---|---|---|
+| `nearest_invaded_km` | numeric | km | Distance to the nearest previously invaded region |
+| `nearest_source` | character | — | `NUTS_ID` of that region |
+| `distance100` | numeric | 100 km | `nearest_invaded_km / 100`; the form used in the models |
+| `invasion_pressure` | numeric | — | Neighbourhood invasion pressure Φ = Σⱼ exp(−dᵢⱼ / λ) over previously invaded regions j, λ = 50 km |
+| `pressure_z` | numeric | SD | `invasion_pressure` standardised to mean 0, SD 1 over this panel |
+| `log_cases_nearest` | numeric | log scale | Source-region transmission intensity, log(1 + `cases`) |
+
+### Climate
+
+ISIMIP3a observational climate forcing (obsclim, 20crv3-era5, bias-adjusted), aggregated to NUTS3 and re-keyed to NUTS 2021 by `code/10_climate_nuts_crosswalk.R`.
+
+| Variable | Type | Units | Description |
+|---|---|---|---|
+| `tas` | numeric | °C | Annual mean near-surface air temperature |
+| `tasmax` | numeric | °C | Annual mean daily maximum temperature (not in the primary model) |
+| `tasmin` | numeric | °C | Annual mean daily minimum temperature (not in the primary model) |
+| `hurs` | numeric | % | Annual mean near-surface relative humidity |
+| `pr` | numeric | as in the source file (flux basis, kg m⁻² s⁻¹) | Precipitation; enters the models only as `pr_z` |
+| `pr_z` | numeric | SD | `pr` standardised to mean 0, SD 1 over this panel. Stored rather than computed with `scale()` in the formula, so that out-of-sample scoring uses the fitting data's mean and SD |
+
+### Landscape
+
+| Variable | Type | Description |
+|---|---|---|
+| `URBN_TYPE` | integer | Eurostat urban-rural typology: 1 = predominantly urban, 2 = intermediate, 3 = predominantly rural. Entered as `factor(URBN_TYPE)`, reference 1 |
+| `COAST_TYPE` | integer | Eurostat coastal typology (sensitivity analyses only, Supplementary Table S13) |
+| `MOUNT_TYPE` | integer | Eurostat mountain typology (sensitivity analyses only, Supplementary Table S13) |
+
+### Period
+
+| Variable | Type | Description |
+|---|---|---|
+| `invasion_phase` | factor | Early (2007–2010), Middle (2011–2015), Pre-COVID (2016–2019), Post-COVID (2020–2024) |
 
 ------------------------------------------------------------------------
 
-### Landscape and geographic covariates
+## `spatial_objects_withBalkans.rds`
 
-| Variable | Type | Values | Description |
-|----|----|----|----|
-| `URBN_TYPE` | integer | 1 = urban, 2 = intermediate, 3 = rural | Urbanisation category derived from the Eurostat urban-rural typology at NUTS3 scale. Time-invariant covariate. Entered as factor(URBN_TYPE) in models with urban (1) as the reference category. |
-| `COAST_TYPE` | numeric | Coded | Coastal typology classification (Eurostat). Not used in primary models. |
-| `MOUNT_TYPE` | numeric | Coded | Mountain/topographic classification (Eurostat). Not used in primary models. |
+A list over all 1088 cohort regions, in the row order of `region_lookup`:
 
-------------------------------------------------------------------------
-
-### Analytical groupings
-
-| Variable | Type | Values | Description |
-|----|----|----|----|
-| `invasion_phase` | factor | Early (2006–2010), Middle (2011–2015), Pre-COVID (2016–2019), Post-COVID (2020–2024) | Temporal phase of WNV expansion. Defined a priori based on distinct epidemiological periods in European WNV history. Used in phase-stratified PH sensitivity check (Analysis 2.11) and Supplementary Figure S4. |
-
-------------------------------------------------------------------------
-
-## Notes on data structure
-
-**Counting-process format:** The dataset is structured in the (start, stop] counting-process format required by the `survival` package in R. Each region contributes one row per calendar year until either (i) first invasion or (ii) end of study period (2024). The `stop` column equals `start + 1` for all observations.
-
-**Right-censoring:** Regions remaining disease-free through 2024 have `event = 0` for all rows. These are treated as right-censored at `stop = 18` (year 2024 = t₀ + 18).
-
-**Temporal causality:** Both `distance100` (Dᵢₜ) and `invasion_pressure` / `pressure_z` (Φᵢₜ) are computed exclusively from regions with documented WNV transmission **before** the focal year t (using I\_{t-1}). This ensures that future invasion events cannot influence past exposure estimates.
-
-**Subset for descriptive analyses:** `first_invaded <- analysis_cases %>% filter(event == 1)` gives the 269 first-invasion events used for Figures 4A, S3, S4, and the KW tests.
+| Element | Class | Content |
+|---|---|---|
+| `region_lookup` | data.frame, 1088 × 1 | `NUTS_ID` |
+| `region_index` | integer, 1088 | Row index of each region |
+| `dist_mat` | matrix, 1088 × 1088 | Centroid-to-centroid distance, km, EPSG:3035 |
+| `W` | matrix, 1088 × 1088 | Decay weights exp(−d / 50), diagonal set to 0 |
+| `first_outbreak` | tibble, 1088 × 2 | `NUTS_ID`, `first_year` (2006–2024; NA if not invaded by 2024) |
 
 ------------------------------------------------------------------------
 
 ## Missing data
 
-No missing values are expected in the primary analytic variables (distance100, pressure_z, log_cases_nearest, tas, hurs, pr, URBN_TYPE) for the 16,318 region-years included in the analysis. Regions with incomplete covariate data were excluded during data preparation (see `00_data_preparation.R`).
+The panel has no missing values in `distance100`, `invasion_pressure`, `tas`, `pr` or `hurs`; rows lacking any of these were removed during preparation (`code/00_data_preparation_withBalkans.R`, section 14). `first_year` is NA by design for regions not invaded by 2024.
 
 ------------------------------------------------------------------------
 
-## Provenance
-
-This derived dataset was constructed from the sources listed in the README.md. The full construction pipeline is documented in `code/00_data_preparation.R`. Key construction decisions:
-
--   **Invasion definition:** First calendar year with ≥ 1 confirmed locally acquired human WNV infection (ECDC definition)
--   **Spatial projection:** EPSG:3035 (Lambert Azimuthal Equal Area) for all distance calculations
--   **Decay parameter:** λ = 50 km, selected by profile-likelihood minimising AIC across 8 candidate values
--   **ERA5 aggregation:** Area-weighted averaging using exactextractr package
-
-------------------------------------------------------------------------
-
-*Codebook version 1.0 — July 2025*
+*Codebook version 2.0, September 2026*

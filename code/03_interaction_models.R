@@ -36,7 +36,7 @@ cat("── Analysis 1.13: LR test for source-region transmission intensity ─�
 cox_without_intensity <- coxph(
   Surv(start, stop, event) ~
     distance100 + pressure_z +
-    tas + hurs + scale(pr) + factor(URBN_TYPE),
+    tas + hurs + pr_z + factor(URBN_TYPE),
   data  = analysis_cases,
   ties  = "efron"
 )
@@ -66,7 +66,7 @@ cox_interaction <- coxph(
   Surv(start, stop, event) ~
     distance100 * tas +
     pressure_z + log_cases_nearest +
-    hurs + scale(pr) + factor(URBN_TYPE),
+    hurs + pr_z + factor(URBN_TYPE),
   data  = analysis_cases,
   ties  = "efron"
 )
@@ -100,7 +100,9 @@ newdat$pressure_z <- mean(analysis_cases$pressure_z,na.rm = TRUE)
 newdat$log_cases_nearest <- mean( analysis_cases$log_cases_nearest,na.rm = TRUE)
 
 newdat$hurs <- mean( analysis_cases$hurs,na.rm = TRUE)
-newdat$pr <- mean( analysis_cases$pr,na.rm = TRUE)
+# pr_z, not pr: see the note in 02_survival_analyses.R. A constant pr under
+# scale() gave NaN for the whole predicted surface.
+newdat$pr_z <- mean(analysis_cases$pr_z, na.rm = TRUE)
 newdat$URBN_TYPE <- factor(
   levels(factor(analysis_cases$URBN_TYPE))[1],
   levels = levels(factor(analysis_cases$URBN_TYPE)))

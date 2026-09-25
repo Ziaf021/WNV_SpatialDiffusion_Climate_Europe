@@ -54,7 +54,7 @@ univar_results <- bind_rows(
              "Source-region intensity (log scale)"),
   fit_univar("Surv(start,stop,event) ~ tas",
              "Temperature per 1 deg C"),
-  fit_univar("Surv(start,stop,event) ~ scale(pr)",
+  fit_univar("Surv(start,stop,event) ~ pr_z",
              "Precipitation per SD"),
   fit_univar("Surv(start,stop,event) ~ hurs",
              "Relative humidity per 1 pct"),
@@ -74,7 +74,7 @@ cox_spline <- coxph(
   Surv(start, stop, event) ~
     pspline(distance100, df = 4) +
     pressure_z + log_cases_nearest +
-    tas + hurs + scale(pr) + factor(URBN_TYPE),
+    tas + hurs + pr_z + factor(URBN_TYPE),
   data  = analysis_cases,
   ties  = "efron"
 )
@@ -83,7 +83,7 @@ cox_spline <- coxph(
 cox_linear_dist <- coxph(
   Surv(start, stop, event) ~
     distance100 + pressure_z + log_cases_nearest +
-    tas + hurs + scale(pr) + factor(URBN_TYPE),
+    tas + hurs + pr_z + factor(URBN_TYPE),
   data  = analysis_cases,
   ties  = "efron"
 )
@@ -100,7 +100,11 @@ dist_grid <- data.frame(
   log_cases_nearest= mean(analysis_cases$log_cases_nearest, na.rm = TRUE),
   tas              = mean(analysis_cases$tas,               na.rm = TRUE),
   hurs             = mean(analysis_cases$hurs,              na.rm = TRUE),
-  pr               = mean(analysis_cases$pr,                na.rm = TRUE),
+  # pr_z, not pr: the model carries the pre-standardised term. Held at its mean,
+  # which is zero by construction. Under the previous scale(pr) formulation this
+  # grid held pr at a single constant, so scale() saw a zero standard deviation
+  # and returned NaN for every row of the predicted spline curve.
+  pr_z             = mean(analysis_cases$pr_z,              na.rm = TRUE),
   URBN_TYPE        = 1L    # reference: rural (most common)
 )
 
@@ -153,7 +157,7 @@ cat("── Analysis 1.12: Primary multivariable Cox model ──\n")
 cox_source_full <- coxph(
   Surv(start, stop, event) ~
     distance100 + pressure_z + log_cases_nearest +
-    tas + hurs + scale(pr) + factor(URBN_TYPE),
+    tas + hurs + pr_z + factor(URBN_TYPE),
   data  = analysis_cases,
   ties  = "efron"
 )
